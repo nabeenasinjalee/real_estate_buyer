@@ -19,3 +19,4 @@ dist-ssr
 hello.md
 eslint.config.js
 vite.config.js
+.gitignore
