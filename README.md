@@ -18,32 +18,19 @@ FRONTEND (Browser) → BACKEND (Server) → DATABASE → BACKEND → FRONTEND
    User clicks heart icon
            ↓
 2. STATE UPDATE
-   Frontend detects click
+   Frontend detects a click
    Prepares property data:
-   {
-     property_id: 1,
-     property_title: "Modern Downtown Apartment",
-     property_price: "$450,000",
-     property_location: "Downtown, City Center",
-     property_image: [base64 image data]
-   }
            ↓
 3. ADD HEADER WITH TOKEN
    Frontend retrieves token from local storage
-   Creates request with:
-   {
-     Authorization: "Bearer eyJhbGciOiJIUzI1NiIs..."
-     Content-Type: "application/json"
-   }
            ↓
 4. SEND REQUEST
-   Frontend sends POST request to:
-   http://localhost:5000/api/favourites
+   Frontend sends a POST request
    
    With body (the data)
            ↓
 5. NETWORK TRANSMISSION
-   Request travels over internet to backend server
+   Request travels over the internet to the backend server
    (Usually takes milliseconds)
            ↓
 6. BACKEND RECEIVES
@@ -55,86 +42,56 @@ FRONTEND (Browser) → BACKEND (Server) → DATABASE → BACKEND → FRONTEND
 7. BACKEND VALIDATION
    Backend performs 4 checks:
    
-   ✓ Check 1: Is token valid?
-     Uses JWT library to verify
+   ✓ Check 1: Is the token valid?
+     Uses the JWT library to verify
      
-   ✓ Check 2: Has token expired?
+   ✓ Check 2: Has the token expired?
      Checks expiration time
      
    ✓ Check 3: Extract user ID from token
      Gets who made this request
      
-   ✓ Check 4: Is property already favorited?
-     Queries database:
-     SELECT * FROM favourites 
-     WHERE user_id = 1 AND property_id = 1
+   ✓ Check 4: Is the property already favourited?
+     Queries the database
      
      If found: Return error "Already in favorites"
      If not found: Continue
            ↓
-8. DATABASE INSERTION
-   Backend executes SQL:
-   INSERT INTO favourites (
-     user_id, 
-     property_id, 
-     property_title, 
-     property_price, 
-     property_location, 
-     property_image
-   ) VALUES (
-     1,
-     1,
-     "Modern Downtown Apartment",
-     "$450,000",
-     "Downtown, City Center",
-     [image data]
-   )
+8. DATABASE INSERTION (intern user id with property selected)
            ↓
 9. DATABASE RESPONSE
    Database returns:
    - Success with last inserted ID: 42
-   - Or error if constraints violated
+   - Or error if constraints are violated
            ↓
 10. BACKEND RESPONSE
     Backend sends response back:
     HTTP Status: 201 (Created)
-    Body:
-    {
-      message: "Added to favourites",
-      favourite: {
-        id: 42,
-        user_id: 1,
-        property_id: 1,
-        property_title: "Modern Downtown Apartment",
-        ...
-      }
-    }
+    ensureing property added
            ↓
-11. NETWORK TRANSMISSION BACK
-    Response travels back to frontend
+12. NETWORK TRANSMISSION BACK
+    Response travels back to the frontend
            ↓
-12. FRONTEND RECEIVES RESPONSE
+13. FRONTEND RECEIVES RESPONSE
     Checks HTTP status:
     - 201 or 200 → Success
     - 400-500 → Error
            ↓
-13. STATE UPDATE (on success)
+14. STATE UPDATE (on success)
     Frontend:
     • Adds property to favoritesList in memory
     • Updates React state
     • Component re-renders
            ↓
-14. UI UPDATES
+15. UI UPDATES
     What user sees change:
     • Heart icon changes to filled red
-    • Property appears in Favorites section
+    • Property appears in the Favourites section
     • Success message appears
-    • Maybe scroll to Favorites section
+    • Maybe scroll to the Favourites section
            ↓
-15. USER FEEDBACK
-    Success message displayed:
-    "Modern Downtown Apartment added to favourites!"
-    (Message disappears in 5 seconds)
+16. USER FEEDBACK
+    Success message displayed
            ↓
     APPLICATION RETURNS TO NORMAL STATE
 
