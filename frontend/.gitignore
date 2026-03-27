@@ -17,6 +17,3 @@ dist-ssr
 !.vscode/extensions.json
 .env
 hello.md
-eslint.config.js
-vite.config.js
-.gitignore
